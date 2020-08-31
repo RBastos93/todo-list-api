@@ -1,8 +1,14 @@
 'use strict';
 
-const homeRoute = require('./home-route');
-const listsRoutes = require('./lists/lists-routes');
-const tasksRoutes = require('./tasks/task-routes');
+const fs = require('fs');
 
+let routes = [];
 
-module.exports = [ homeRoute, listsRoutes, tasksRoutes ];
+fs.readdirSync(__dirname)
+    .forEach(file => {
+        if (file !== 'index.js') {
+            routes = [...routes, require(`./${file}`)];
+        }
+    });
+
+module.exports = routes;
